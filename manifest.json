@@ -1,0 +1,22 @@
+{
+    "name": "Juega al Impostor",
+    "short_name": "Impostor",
+    "description": "Juego de roles para descubrir al impostor entre los jugadores",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#1a3a5f",
+    "theme_color": "#1a3a5f",
+    "icons": [
+        {
+            "src": "https://raw.githubusercontent.com/ManuelVS8/Audios-juegos-SCIENCE/refs/heads/main/icono.ico",
+            "sizes": "192x192",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "https://raw.githubusercontent.com/ManuelVS8/Audios-juegos-SCIENCE/refs/heads/main/icono.ico",
+            "sizes": "512x512",
+            "type": "image/x-icon"
+        }
+    ],
+    "splash_pages": null
+}
