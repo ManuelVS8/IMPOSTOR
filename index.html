@@ -167,10 +167,18 @@
             box-shadow: 0 2px 10px rgba(245, 158, 66, 0.3);
         }
 
+        /* MODIFICACIÓN: Color del botón "Volver a configuración" con gradiente y sombra azul */
         .back-btn {
-            background: #6c757d;
+            background: linear-gradient(135deg, #1a3a5f 0%, #0d2340 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(26, 58, 95, 0.3);
         }
 
+        .back-btn:hover {
+            box-shadow: 0 8px 25px rgba(26, 58, 95, 0.4);
+        }
+
+        /* MODIFICACIÓN: Área de visualización de palabra limpiada */
         .word-display {
             background: #E8EAFF;
             padding: 25px;
@@ -182,6 +190,101 @@
             color: #1a3a5f;
             border: 3px dashed #1a3a5f;
             box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .word-display .word-text {
+            font-size: 2rem;
+            letter-spacing: 4px;
+            font-family: monospace;
+        }
+
+        /* MODIFICACIÓN: Botón del ojo limpio sin sombra naranja y junto a la palabra */
+        .word-display .show-word-btn {
+            position: relative;
+            margin-left: 15px;
+            background: none;
+            border: none;
+            color: #1a3a5f;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            vertical-align: middle;
+            box-shadow: none !important;
+        }
+
+        .word-display .show-word-btn:hover {
+            color: #f59e42;
+            box-shadow: none !important;
+        }
+
+        .start-player-btn {
+            background: #28a745;
+            color: white;
+            font-size: 1.2rem;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+            width: 100%;
+            display: none;
+        }
+
+        .start-player-btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+        }
+
+        .start-player-btn.active {
+            display: block;
+            animation: bounce 0.5s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* MODIFICACIÓN: Animación de ruleta para seleccionar jugador */
+        .player-roulette {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #28a745;
+            margin-top: 15px;
+            text-align: center;
+            animation: pulse 2s infinite;
+            height: 40px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .player-roulette .player-name {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .selected-player {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #28a745;
+            margin-top: 15px;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+
+        .selected-player::before {
+            content: "🎲 ";
         }
 
         /* Tarjeta de jugador con animación 3D */
@@ -276,11 +379,6 @@
             font-size: 3rem;
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
         .impostor-reveal-btn {
             background: #e74c3c;
             color: white;
@@ -332,7 +430,7 @@
             text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        .known-revealed {
+        .known-reveal {
             font-size: 1.6rem;
             color: #2ecc71;
             margin: 20px 0;
@@ -372,12 +470,6 @@
             display: flex;
             gap: 15px;
             margin-bottom: 20px;
-        }
-
-        .word-options button {
-            flex: 1;
-            padding: 12px;
-            font-size: 1rem;
         }
 
         .help-modal {
@@ -522,7 +614,10 @@
                     <input type="text" id="customWord" placeholder="Introduce tu palabra..." style="margin-top: 10px;">
                 </div>
                 
-                <div class="word-display" id="generatedWord">Palabra: _______</div>
+                <div class="word-display" id="generatedWord">
+                    <span class="word-text">********</span>
+                    <button class="show-word-btn" id="showWordBtn" onclick="toggleWordVisibility()">👁️</button>
+                </div>
             </div>
             
             <button onclick="startGame()" class="start-btn">
@@ -549,6 +644,13 @@
                 </div>
             </div>
             
+            <!-- MODIFICACIÓN: Botón de seleccionar jugador inicial con animación de ruleta -->
+            <button id="startPlayerBtn" class="start-player-btn" onclick="selectStartingPlayer()">
+                🎲 Seleccionar Jugador Inicial
+            </button>
+            <div id="playerRoulette" class="player-roulette" style="display: none;"></div>
+            <div id="selectedPlayer" class="selected-player"></div>
+            
             <button id="impostorRevealBtn" class="impostor-reveal-btn" style="display: none;" onclick="revealImpostor()">🎭 Mostrar Impostor</button>
         </div>
         
@@ -559,7 +661,7 @@
             <div class="results">
                 <h2>🏆 Resultados Finales</h2>
                 <div class="impostor-revealed" id="impostorReveal"></div>
-                <div class="known-revealed" id="knownReveal"></div>
+                <div class="known-reveal" id="knownReveal"></div>
             </div>
             
             <button class="restart-btn" onclick="restartGame()">🔄 Reiniciar Juego</button>
@@ -651,7 +753,10 @@
             allRevealed: false,
             cardFlipped: false,
             wordSource: 'generated',
-            customWord: ''
+            customWord: '',
+            wordVisible: false,
+            startingPlayer: null,
+            rouletteInterval: null
         };
 
         // Sonidos
@@ -715,14 +820,34 @@
             const word = wordDatabase[randomIndex];
             gameState.word = word;
             
-            document.getElementById('generatedWord').textContent = `Palabra: ${word}`;
+            document.getElementById('generatedWord').style.display = 'block';
             document.getElementById('customWordGroup').style.display = 'none';
             document.getElementById('generateWordBtn').style.display = 'none';
             document.getElementById('customWordBtn').style.display = 'none';
-            document.getElementById('generatedWord').style.display = 'block';
             
             gameState.wordSource = 'generated';
+            gameState.wordVisible = false;
+            updateWordDisplay();
             showNotification('¡Palabra generada correctamente!', 'success');
+        }
+
+        function updateWordDisplay() {
+            const wordText = document.getElementById('generatedWord').querySelector('.word-text');
+            const showWordBtn = document.getElementById('showWordBtn');
+            
+            if (gameState.wordVisible) {
+                wordText.textContent = gameState.word;
+                showWordBtn.textContent = '🙈'; // Ojo cerrado cuando la palabra está visible
+            } else {
+                wordText.textContent = '********';
+                showWordBtn.textContent = '👁️'; // Ojo abierto cuando la palabra está oculta
+            }
+        }
+
+        function toggleWordVisibility() {
+            playTapSound();
+            gameState.wordVisible = !gameState.wordVisible;
+            updateWordDisplay();
         }
 
         function startGame() {
@@ -746,6 +871,7 @@
             gameState.currentPlayerIndex = 0;
             gameState.allRevealed = false;
             gameState.cardFlipped = false;
+            gameState.startingPlayer = null;
             
             // Crear jugadores
             for (let i = 0; i < playerCount; i++) {
@@ -774,6 +900,9 @@
             const hideBtn = document.getElementById('hideBtn');
             const impostorRevealBtn = document.getElementById('impostorRevealBtn');
             const playerIndicator = document.getElementById('playerIndicator');
+            const startPlayerBtn = document.getElementById('startPlayerBtn');
+            const selectedPlayer = document.getElementById('selectedPlayer');
+            const playerRoulette = document.getElementById('playerRoulette');
             
             // Resetear tarjeta
             card.classList.remove('flipped');
@@ -787,6 +916,9 @@
             showBtn.style.display = 'block';
             hideBtn.style.display = 'none';
             impostorRevealBtn.style.display = 'none';
+            startPlayerBtn.classList.remove('active');
+            selectedPlayer.textContent = '';
+            playerRoulette.style.display = 'none';
             
             playerIndicator.textContent = `Turno de ${player.name}`;
             
@@ -840,7 +972,8 @@
                 // Último jugador, solo ocultar
                 gameState.allRevealed = true;
                 document.getElementById('impostorRevealBtn').style.display = 'block';
-                showNotification('Todos los jugadores han visto su tarjeta. Ahora puedes revelar al impostor.', 'info');
+                document.getElementById('startPlayerBtn').classList.add('active');
+                showNotification('Todos los jugadores han visto su tarjeta. Ahora puedes seleccionar quién empieza.', 'info');
             } else {
                 gameState.currentPlayerIndex = nextIndex;
                 showPlayerCard();
@@ -852,7 +985,7 @@
 
         function revealImpostor() {
             playFinalSound();
-            spawnConfetti(); // Usar tu confeti personalizado
+            spawnConfetti();
             
             document.getElementById('gameScreen').classList.remove('active');
             document.getElementById('resultScreen').classList.add('active');
@@ -866,7 +999,42 @@
             showNotification('¡El impostor ha sido revelado!', 'success');
         }
 
-        // CONFETI PERSONALIZADO - Función que proporcionaste
+        // MODIFICACIÓN: Animación de ruleta usando setInterval según la especificación del usuario
+        function selectStartingPlayer() {
+            const display = document.getElementById('selectedPlayer');
+            const btn = document.getElementById('startPlayerBtn');
+            
+            // 1. Evitamos que se pulse varias veces mientras sortea
+            if (btn.disabled) return;
+            btn.disabled = true;
+            btn.style.opacity = "0.6";
+
+            let i = 0; // Contador de vueltas
+            
+            // 2. Iniciamos el intervalo (se ejecuta cada 80 milisegundos)
+            gameState.rouletteInterval = setInterval(() => {
+                // Elegimos un jugador al azar de la lista
+                const rand = Math.floor(Math.random() * gameState.players.length);
+                
+                // Actualizamos el texto en pantalla con el nombre aleatorio actual
+                display.textContent = `🎲 Sorteando: ${gameState.players[rand].name}`;
+                
+                i++; // Sumamos una vuelta
+
+                // 3. Cuando llega a 15 iteraciones, se detiene
+                if(i > 15) {
+                    clearInterval(gameState.rouletteInterval); // Detiene el bucle de la ruleta
+                    
+                    // 4. Resultado final definitivo
+                    const final = Math.floor(Math.random() * gameState.players.length);
+                    display.innerHTML = `🏁 Empieza: <span style="color:#1a3a5f">${gameState.players[final].name}</span>`;
+                    
+                    // Ocultamos el botón para que ya no se pueda cambiar el resultado
+                    btn.style.display = 'none';
+                }
+            }, 80); // 80ms es la velocidad de la animación
+        }
+
         function spawnConfetti(){
           const container = document.body; // Se añade al cuerpo del documento
           
@@ -921,14 +1089,16 @@
             document.getElementById('generateWordBtn').style.display = 'block';
             document.getElementById('customWordBtn').style.display = 'block';
             document.getElementById('generatedWord').style.display = 'block';
-            document.getElementById('generatedWord').textContent = 'Palabra: _______';
+            document.getElementById('generatedWord').querySelector('.word-text').textContent = '********';
             document.getElementById('customWord').value = '';
+            gameState.word = '';
+            gameState.wordSource = 'generated';
+            gameState.wordVisible = false;
+            updateWordDisplay();
         }
 
         function restartGame() {
             backToSetup();
-            gameState.word = '';
-            gameState.wordSource = 'generated';
         }
 
         function showNotification(message, type = 'info') {
