@@ -24,7 +24,8 @@
             align-items: center;
             padding: 20px;
             color: #333;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
 
         .container {
@@ -36,6 +37,7 @@
             padding: 30px;
             animation: fadeIn 0.6s ease;
             position: relative;
+            margin: 20px 0;
         }
 
         @keyframes fadeIn {
@@ -358,23 +360,6 @@
             to { transform: translateX(0); }
         }
 
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background: #f59e42;
-            position: absolute;
-            animation: confetti-fall 3s linear;
-            z-index: 9999;
-        }
-
-        @keyframes confetti-fall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
         .player-indicator {
             text-align: center;
             margin: 20px 0;
@@ -450,6 +435,26 @@
             box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
         }
 
+        /* CONFETI PERSONALIZADO */
+        .confetti {
+            position: absolute;
+            z-index: 999;
+            pointer-events: none;
+            animation: confetti-fall 4s linear forwards;
+            border-radius: 2px;
+        }
+
+        @keyframes confetti-fall {
+            0% { 
+                transform: translateY(0) rotate(0deg); 
+                opacity: 1; 
+            }
+            100% { 
+                transform: translateY(var(--ty)) translateX(var(--tx)) rotate(var(--tr)); 
+                opacity: 0; 
+            }
+        }
+
         @media (max-width: 600px) {
             .container {
                 padding: 25px;
@@ -493,9 +498,9 @@
                 <select id="playerCount">
                     <option value="3">3 jugadores</option>
                     <option value="4">4 jugadores</option>
-                    <option value="5">5 jugadores</option>
+                    <option value="5" selected>5 jugadores</option>
                     <option value="6">6 jugadores</option>
-                    <option value="7" selected>7 jugadores</option>
+                    <option value="7">7 jugadores</option>
                     <option value="8">8 jugadores</option>
                     <option value="9">9 jugadores</option>
                     <option value="10">10 jugadores</option>
@@ -834,7 +839,7 @@
 
         function revealImpostor() {
             playFinalSound();
-            createConfetti();
+            spawnConfetti(); // Usar tu confeti personalizado
             
             document.getElementById('gameScreen').classList.remove('active');
             document.getElementById('resultScreen').classList.add('active');
@@ -848,21 +853,49 @@
             showNotification('¡El impostor ha sido revelado!', 'success');
         }
 
-        function createConfetti() {
-            for (let i = 0; i < 50; i++) {
-                setTimeout(() => {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.backgroundColor = ['#f59e42', '#e67e22', '#2ecc71', '#e74c3c', '#1a3a5f', '#0d2340'][Math.floor(Math.random() * 6)];
-                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                    document.body.appendChild(confetti);
-                    
-                    setTimeout(() => {
-                        confetti.remove();
-                    }, 5000);
-                }, i * 50);
-            }
+        // CONFETI PERSONALIZADO - Función que proporcionaste
+        function spawnConfetti(){
+          const container = document.body; // Se añade al cuerpo del documento
+          
+          for(let i = 0; i < 120; i++){
+            setTimeout(() => {
+              const c = document.createElement('div');
+              c.className = 'confetti';
+              
+              // 1. Posición inicial horizontal aleatoria
+              const x = Math.random() * window.innerWidth;
+              
+              // 2. Definición de la trayectoria (Variables CSS)
+              const ty = window.innerHeight + 20; // Cae hasta el fondo + margen
+              const tx = (Math.random() - 0.5) * 200; // Se mueve a izq o der hasta 100px
+              const tr = (Math.random() - 0.5) * 1000; // Rotación de muchos grados
+              
+              // 3. Colores vibrantes (puedes cambiarlos según tu juego)
+              const colors = ['#ff595e','#1982c4','#6a4c93','#ffca3a','#8ac926','#ff924c','#00c2ff'];
+              const color = colors[Math.floor(Math.random() * colors.length)];
+              
+              // 4. Tamaño aleatorio
+              const size = 6 + Math.random() * 8;
+              
+              // Aplicamos los estilos dinámicos
+              c.style.left = x + 'px';
+              c.style.top = '-20px'; // Empieza justo arriba de la pantalla
+              c.style.width = size + 'px';
+              c.style.height = (size * 0.4) + 'px'; // Son rectángulos alargados
+              c.style.backgroundColor = color;
+              
+              // Pasamos los valores a las variables de la animación CSS
+              c.style.setProperty('--ty', ty + 'px');
+              c.style.setProperty('--tx', tx + 'px');
+              c.style.setProperty('--tr', tr + 'deg');
+              
+              container.appendChild(c);
+              
+              // 5. Autodestrucción para optimizar memoria
+              setTimeout(() => c.remove(), 4000);
+              
+            }, i * 10); // Intervalo de salida entre papelitos
+          }
         }
 
         function backToSetup() {
