@@ -43,27 +43,29 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        h1 {
-            text-align: center;
-            color: #1a3a5f;
-            margin-bottom: 30px;
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            font-weight: 900;
-            letter-spacing: -0.5px;
+        /* Línea superior con logo y botón de ayuda */
+        .header-top {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            gap: 15px;
+            margin-bottom: 20px;
         }
 
-        .detective-icon {
-            font-size: 1.5em;
+        .logo-container {
+            width: 50px;
+            height: 50px;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .help-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
             background: #f59e42;
             color: white;
             border: none;
@@ -85,21 +87,21 @@
             box-shadow: 0 6px 15px rgba(245, 158, 66, 0.4);
         }
 
-        .logo-container {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            width: 60px;
-            height: 60px;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        h1 {
+            text-align: center;
+            color: #1a3a5f;
+            margin-bottom: 30px;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
 
-        .logo-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .detective-icon {
+            font-size: 1.5em;
         }
 
         .screen {
@@ -474,9 +476,12 @@
 </head>
 <body>
     <div class="container">
-        <button class="help-btn" onclick="showHelp()">?</button>
-        <div class="logo-container">
-            <img src="https://raw.githubusercontent.com/ManuelVS8/Efectos_audio/refs/heads/main/Siurot.png" alt="Logo Colegio Siurot">
+        <!-- Línea superior con logo y botón de ayuda -->
+        <div class="header-top">
+            <div class="logo-container">
+                <img src="https://raw.githubusercontent.com/ManuelVS8/Efectos_audio/refs/heads/main/Siurot.png" alt="Logo Colegio Siurot">
+            </div>
+            <button class="help-btn" onclick="showHelp()">?</button>
         </div>
         
         <h1><span class="detective-icon">🕵️</span> Juega al Impostor</h1>
@@ -488,9 +493,9 @@
                 <select id="playerCount">
                     <option value="3">3 jugadores</option>
                     <option value="4">4 jugadores</option>
-                    <option value="5" selected>5 jugadores</option>
+                    <option value="5">5 jugadores</option>
                     <option value="6">6 jugadores</option>
-                    <option value="7">7 jugadores</option>
+                    <option value="7" selected>7 jugadores</option>
                     <option value="8">8 jugadores</option>
                     <option value="9">9 jugadores</option>
                     <option value="10">10 jugadores</option>
