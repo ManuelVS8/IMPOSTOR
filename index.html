@@ -512,6 +512,7 @@
             color: #333;
         }
 
+        /* MODIFICACIÓN: Botón de cierre del modal de ayuda centrado perfectamente */
         .close-help {
             position: absolute;
             top: 15px;
@@ -522,9 +523,18 @@
             width: 30px;
             height: 30px;
             border-radius: 50%;
-            font-size: 1.2em;
+            font-size: 1.3em; /* Ajustado para mejor centrado */
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centra el contenido horizontal y verticalmente */
+            padding: 0; /* Elimina cualquier padding que pueda desalinear */
+        }
+
+        .close-help:hover {
+            background: #c0392b;
+            transform: scale(1.1);
         }
 
         /* CONFETI PERSONALIZADO */
@@ -677,7 +687,6 @@
             <p><strong>Preparación:</strong> Elige el número de jugadores y una palabra secreta.</p>
             <p><strong>Reparto de Roles:</strong> Un jugador será el impostor (no conocerá la palabra) y el resto sí.</p>
             <p><strong>Juego:</strong> Cada jugador pulsa su tarjeta para ver su rol. Si ves la palabra, eres un jugador normal. Si ves "Impostor", debes engañar a los demás.</p>
-            <p><strong>Estrategia:</strong> Los jugadores normales deben dar pistas sobre la palabra sin revelarla. El impostor debe actuar como si conociera la palabra.</p>
             <p><strong>Revelación Final:</strong> Después de las pistas, cada jugador vota señalando a un sospechoso. Pulsa 'Mostrar Impostor' para revelar quién era.</p>
             <p><strong>Victoria:</strong> Si el impostor es descubierto, gana el equipo. Si logra engañar, gana él.</p>
         </div>
