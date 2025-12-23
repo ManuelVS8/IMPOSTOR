@@ -8,6 +8,7 @@ const urlsToCache = [
     'https://raw.githubusercontent.com/ManuelVS8/Efectos_audio/main/Completado.mp3'
 ];
 
+
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
