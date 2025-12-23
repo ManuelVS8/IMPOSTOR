@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1a3a5f">
     <title>Juega al Impostor</title>
-    <link rel="icon" href="https://raw.githubusercontent.com/ManuelVS8/Audios-juegos-SCIENCE/refs/heads/main/icono.ico">
-    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/ManuelVS8/Audios-juegos-SCIENCE/refs/heads/main/icono.ico">
+    <link rel="icon" href="icono-192.png">
+    <link rel="manifest" href="manifest.json">
     <style>
         * {
             margin: 0;
@@ -484,7 +484,7 @@
         <!-- Línea superior con logo y botón de ayuda -->
         <div class="header-top">
             <div class="logo-container">
-                <img src="https://raw.githubusercontent.com/ManuelVS8/Efectos_audio/refs/heads/main/Siurot.png" alt="Logo Colegio Siurot">
+                <img src="icono-192.png" alt="Logo Colegio Siurot">
             </div>
             <button class="help-btn" onclick="showHelp()">?</button>
         </div>
@@ -584,6 +584,19 @@
     <div class="notification" id="notification"></div>
 
     <script>
+        // Service Worker registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('Service Worker registrado:', registration);
+                    })
+                    .catch(error => {
+                        console.log('Error al registrar Service Worker:', error);
+                    });
+            });
+        }
+
         // Base de palabras para niños de 9 años (más de 100 palabras)
         const wordDatabase = [
             'árbol', 'casa', 'sol', 'luna', 'estrella', 'planeta', 'galaxia', 'universo',
