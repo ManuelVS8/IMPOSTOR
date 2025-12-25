@@ -45,7 +45,14 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Línea superior con logo y botón de ayuda */
+        /* Animación de parpadeo para asteriscos */
+        @keyframes blinkEffect {
+            0% { opacity: 1; }
+            50% { opacity: 0.2; }
+            100% { opacity: 1; }
+        }
+        .blink { animation: blinkEffect 0.2s ease 2; }
+
         .header-top {
             display: flex;
             justify-content: space-between;
@@ -83,12 +90,6 @@
             justify-content: center;
         }
 
-        .help-btn:hover {
-            background: #e67e22;
-            transform: scale(1.1);
-            box-shadow: 0 6px 15px rgba(245, 158, 66, 0.4);
-        }
-
         h1 {
             text-align: center;
             color: #1a3a5f;
@@ -102,22 +103,10 @@
             gap: 15px;
         }
 
-        .detective-icon {
-            font-size: 1.5em;
-        }
+        .screen { display: none; }
+        .screen.active { display: block; animation: fadeIn 0.5s ease; }
 
-        .screen {
-            display: none;
-        }
-
-        .screen.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
+        .form-group { margin-bottom: 25px; }
 
         label {
             display: block;
@@ -138,47 +127,15 @@
             background: #ffffff;
         }
 
-        select:focus, input:focus {
-            outline: none;
-            border-color: #f59e42;
-            box-shadow: 0 0 0 4px rgba(245, 158, 66, 0.1);
-            transform: translateY(-2px);
-        }
-
         button {
             background: #f59e42;
             color: white;
             border: none;
             cursor: pointer;
             margin-top: 15px;
-            transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(245, 158, 66, 0.3);
-            border-radius: 10px;
         }
 
-        button:hover {
-            background: #e67e22;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(245, 158, 66, 0.4);
-        }
-
-        button:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 10px rgba(245, 158, 66, 0.3);
-        }
-
-        /* MODIFICACIÓN: Color del botón "Volver a configuración" con gradiente y sombra azul */
-        .back-btn {
-            background: linear-gradient(135deg, #1a3a5f 0%, #0d2340 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(26, 58, 95, 0.3);
-        }
-
-        .back-btn:hover {
-            box-shadow: 0 8px 25px rgba(26, 58, 95, 0.4);
-        }
-
-        /* MODIFICACIÓN: Área de visualización de palabra limpiada */
         .word-display {
             background: #E8EAFF;
             padding: 25px;
@@ -189,105 +146,24 @@
             font-weight: bold;
             color: #1a3a5f;
             border: 3px dashed #1a3a5f;
-            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05);
-            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .word-display .word-text {
-            font-size: 2rem;
-            letter-spacing: 4px;
-            font-family: monospace;
-        }
+        .word-text { font-family: monospace; letter-spacing: 4px; }
 
-        /* MODIFICACIÓN: Botón del ojo limpio sin sombra naranja y junto a la palabra */
-        .word-display .show-word-btn {
-            position: relative;
-            margin-left: 15px;
-            background: none;
-            border: none;
-            color: #1a3a5f;
-            font-size: 1.5rem;
+        .show-word-btn {
+            background: none !important;
+            border: none !important;
+            color: #1a3a5f !important;
+            font-size: 1.5rem !important;
             cursor: pointer;
-            padding: 0;
-            vertical-align: middle;
+            width: auto !important;
+            margin-left: 15px !important;
             box-shadow: none !important;
         }
 
-        .word-display .show-word-btn:hover {
-            color: #f59e42;
-            box-shadow: none !important;
-        }
-
-        .start-player-btn {
-            background: #28a745;
-            color: white;
-            font-size: 1.2rem;
-            padding: 15px;
-            margin-top: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
-            width: 100%;
-            display: none;
-        }
-
-        .start-player-btn:hover {
-            background: #218838;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
-        }
-
-        .start-player-btn.active {
-            display: block;
-            animation: bounce 0.5s ease;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* MODIFICACIÓN: Animación de ruleta para seleccionar jugador */
-        .player-roulette {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #28a745;
-            margin-top: 15px;
-            text-align: center;
-            animation: pulse 2s infinite;
-            height: 40px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .player-roulette .player-name {
-            position: absolute;
-            width: 100%;
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .selected-player {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #28a745;
-            margin-top: 15px;
-            text-align: center;
-            animation: pulse 2s infinite;
-        }
-
-        .selected-player::before {
-            content: "🎲 ";
-        }
-
-        /* Tarjeta de jugador con animación 3D */
         .card-container {
             perspective: 1000px;
             width: 100%;
@@ -305,9 +181,7 @@
             cursor: pointer;
         }
 
-        .card.flipped {
-            transform: rotateY(180deg);
-        }
+        .card.flipped { transform: rotateY(180deg); }
 
         .card-face {
             position: absolute;
@@ -320,283 +194,52 @@
             align-items: center;
             border-radius: 20px;
             padding: 30px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
-        .card-front {
-            background: linear-gradient(135deg, #1a3a5f, #0d2340);
-            color: white;
-        }
+        .card-front { background: linear-gradient(135deg, #1a3a5f, #0d2340); color: white; }
+        .card-back { background: #ffffff; transform: rotateY(180deg); border: 3px solid #d3e2ff; }
 
-        .card-back {
-            background: #ffffff;
-            transform: rotateY(180deg);
-            border: 3px solid #d3e2ff;
-        }
+        .player-name { font-size: 2.5rem; font-weight: bold; margin-bottom: 30px; }
+        .player-role { font-size: 2.8rem; font-weight: bold; margin: 30px 0; color: #1a3a5f; }
+        .player-role.impostor { color: #e74c3c; }
+        .player-role.known { color: #2ecc71; }
 
-        .card-front .player-name {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 30px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
+        .start-player-btn { background: #28a745; display: none; margin-top: 20px; }
+        .selected-player { font-size: 1.5rem; font-weight: bold; color: #28a745; text-align: center; margin-top: 15px; height: 40px; }
 
-        .card-front .show-btn {
-            background: #f59e42;
-            color: white;
-            padding: 15px 30px;
-            font-size: 1.3rem;
-            border-radius: 10px;
-            font-weight: 600;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            margin-bottom: 20px;
-        }
+        .impostor-reveal-btn { background: #e74c3c; display: none; margin-top: 30px; }
+        .restart-btn { background: #2ecc71; margin-top: 30px; }
 
-        .card-front .show-btn:hover {
-            background: #e67e22;
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        }
+        .results { text-align: center; padding: 30px; background: #E8EAFF; border-radius: 20px; margin: 30px 0; }
+        .impostor-revealed { font-size: 2rem; font-weight: bold; color: #e74c3c; margin: 25px 0; }
+        .known-reveal { font-size: 1.6rem; color: #2ecc71; margin: 20px 0; }
 
-        .card-back .player-role {
-            font-size: 2.8rem;
-            font-weight: bold;
-            margin: 30px 0;
-            color: #1a3a5f;
-            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-        }
+        .notification { position: fixed; top: 30px; right: 30px; background: #2ecc71; color: white; padding: 18px 25px; border-radius: 12px; display: none; z-index: 1000; }
 
-        .card-back.impostor .player-role {
-            color: #e74c3c;
-            font-size: 3.2rem;
-            animation: pulse 2s infinite;
-        }
+        .help-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+        .help-modal.active { display: flex; }
+        .help-content { background: white; padding: 30px; border-radius: 20px; max-width: 500px; width: 90%; position: relative; }
+        .close-help { position: absolute; top: 15px; right: 15px; background: #e74c3c; color: white; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-        .card-back.known .player-role {
-            color: #2ecc71;
-            font-size: 3rem;
-        }
-
-        .impostor-reveal-btn {
-            background: #e74c3c;
-            color: white;
-            font-size: 1.3rem;
-            padding: 18px;
-            margin-top: 30px;
-            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
-            width: 100%;
-            border-radius: 12px;
-        }
-
-        .impostor-reveal-btn:hover {
-            background: #c0392b;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
-        }
-
-        .restart-btn {
-            background: #2ecc71;
-            color: white;
-            font-size: 1.3rem;
-            padding: 18px;
-            margin-top: 30px;
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
-            width: 100%;
-            border-radius: 12px;
-        }
-
-        .restart-btn:hover {
-            background: #27ae60;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
-        }
-
-        .results {
-            text-align: center;
-            padding: 30px;
-            background: #E8EAFF;
-            border-radius: 20px;
-            margin: 30px 0;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-        }
-
-        .impostor-revealed {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #e74c3c;
-            margin: 25px 0;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .known-reveal {
-            font-size: 1.6rem;
-            color: #2ecc71;
-            margin: 20px 0;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .notification {
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            background: #2ecc71;
-            color: white;
-            padding: 18px 25px;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-            display: none;
-            animation: slideInRight 0.5s ease;
-            z-index: 1000;
-            font-weight: 600;
-            max-width: 300px;
-        }
-
-        @keyframes slideInRight {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
-        }
-
-        .player-indicator {
-            text-align: center;
-            margin: 20px 0;
-            font-size: 1.1rem;
-            color: #1a3a5f;
-            font-weight: 500;
-        }
-
-        .word-options {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .help-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .help-modal.active {
-            display: flex;
-        }
-
-        .help-content {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .help-content h2 {
-            color: #1a3a5f;
-            margin-bottom: 20px;
-            font-size: 1.8rem;
-        }
-
-        .help-content p {
-            margin-bottom: 15px;
-            line-height: 1.6;
-            color: #333;
-        }
-
-        /* MODIFICACIÓN: Botón de cierre del modal de ayuda centrado perfectamente */
-        .close-help {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #e74c3c;
-            color: white;
-            border: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            font-size: 1.3em; /* Ajustado para mejor centrado */
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center; /* Centra el contenido horizontal y verticalmente */
-            padding: 0; /* Elimina cualquier padding que pueda desalinear */
-        }
-
-        .close-help:hover {
-            background: #c0392b;
-            transform: scale(1.1);
-        }
-
-        /* CONFETI PERSONALIZADO */
-        .confetti {
-            position: absolute;
-            z-index: 999;
-            pointer-events: none;
-            animation: confetti-fall 4s linear forwards;
-            border-radius: 2px;
-        }
-
+        .confetti { position: absolute; z-index: 999; pointer-events: none; animation: confetti-fall 4s linear forwards; border-radius: 2px; }
         @keyframes confetti-fall {
-            0% { 
-                transform: translateY(0) rotate(0deg); 
-                opacity: 1; 
-            }
-            100% { 
-                transform: translateY(var(--ty)) translateX(var(--tx)) rotate(var(--tr)); 
-                opacity: 0; 
-            }
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 25px;
-                border-radius: 20px;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .card-container {
-                height: 400px;
-            }
-            
-            .card-front .player-name {
-                font-size: 2rem;
-            }
-            
-            .card-back .player-role {
-                font-size: 2.2rem;
-            }
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(var(--ty)) translateX(var(--tx)) rotate(var(--tr)); opacity: 0; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Línea superior con logo y botón de ayuda -->
         <div class="header-top">
-            <div class="logo-container">
-                <img src="icono-192.png" alt="Logo Colegio Siurot">
-            </div>
+            <div class="logo-container"><img src="icono-192.png" alt="Logo"></div>
             <button class="help-btn" onclick="showHelp()">?</button>
         </div>
         
-        <h1><span class="detective-icon">🕵️</span> Juega al Impostor</h1>
+        <h1>🕵️ Juega al Impostor</h1>
         
-        <!-- Pantalla de Configuración -->
         <div class="screen active" id="setupScreen">
             <div class="form-group">
-                <label for="playerCount">Número de Jugadores:</label>
+                <label>Número de Jugadores:</label>
                 <select id="playerCount">
                     <option value="3">3 jugadores</option>
                     <option value="4">4 jugadores</option>
@@ -604,523 +247,266 @@
                     <option value="6">6 jugadores</option>
                     <option value="7">7 jugadores</option>
                     <option value="8">8 jugadores</option>
-                    <option value="9">9 jugadores</option>
-                    <option value="10">10 jugadores</option>
                 </select>
             </div>
             
             <div class="form-group">
-                <label for="wordOption">Opción de Palabra:</label>
-                <div class="word-options">
-                    <button id="generateWordBtn" onclick="generateRandomWord()" class="start-btn">
-                        🎲 Generar
-                    </button>
-                    <button id="customWordBtn" onclick="showCustomWordInput()" class="start-btn">
-                        ✏️ Personalizar
-                    </button>
+                <label>Opción de Palabra:</label>
+                <div id="initialWordButtons" style="display: flex; gap: 15px; margin-bottom: 20px;">
+                    <button onclick="generateRandomWord()">🎲 Generar</button>
+                    <button onclick="showCustomWordInput()">✏️ Personalizar</button>
                 </div>
                 
                 <div id="customWordGroup" style="display: none;">
-                    <input type="text" id="customWord" placeholder="Introduce tu palabra..." style="margin-top: 10px;">
+                    <input type="text" id="customWord" placeholder="Introduce tu palabra...">
                 </div>
                 
-                <div class="word-display" id="generatedWord">
-                    <span class="word-text">********</span>
-                    <button class="show-word-btn" id="showWordBtn" onclick="toggleWordVisibility()">👁️</button>
+                <div class="word-display" id="wordArea">
+                    <span class="word-text" id="asterisks">********</span>
+                    <button class="show-word-btn" id="eyeIcon" onclick="toggleWordVisibility()">👁️</button>
                 </div>
             </div>
-            
-            <button onclick="startGame()" class="start-btn">
-                🚀 Iniciar Juego
-            </button>
+            <button onclick="startGame()">🚀 Iniciar Juego</button>
         </div>
         
-        <!-- Pantalla de Juego -->
         <div class="screen" id="gameScreen">
-            <button class="back-btn" onclick="backToSetup()">← Volver a Configuración</button>
+            <button class="back-btn" onclick="backToSetup()" style="background: #1a3a5f; color: white;">← Volver a Configuración</button>
+            <div id="playerIndicator" style="text-align: center; margin: 20px 0; font-weight: bold;">Turno del Jugador 1</div>
             
-            <div class="player-indicator" id="playerIndicator">Turno del Jugador 1</div>
-            
-            <div class="card-container" id="cardContainer">
+            <div class="card-container">
                 <div class="card" id="playerCard">
                     <div class="card-face card-front">
                         <div class="player-name" id="playerName">Jugador 1</div>
-                        <button class="show-btn" id="showBtn">Mostrar</button>
+                        <button style="width: auto; padding: 10px 20px;">Mostrar</button>
                     </div>
-                    <div class="card-face card-back" id="cardBack">
-                        <div class="player-role" id="playerRole">Contenido</div>
-                        <button class="hide-btn" id="hideBtn">Ocultar y pasar</button>
+                    <div class="card-face card-back">
+                        <div class="player-role" id="playerRole"></div>
+                        <button style="width: auto; padding: 10px 20px;">Ocultar y pasar</button>
                     </div>
                 </div>
             </div>
             
-            <!-- MODIFICACIÓN: Botón de seleccionar jugador inicial con animación de ruleta -->
-            <button id="startPlayerBtn" class="start-player-btn" onclick="selectStartingPlayer()">
-                🎲 Seleccionar Jugador Inicial
-            </button>
-            <div id="playerRoulette" class="player-roulette" style="display: none;"></div>
+            <button id="startPlayerBtn" class="start-player-btn" onclick="selectStartingPlayer()">🎲 Seleccionar Jugador Inicial</button>
             <div id="selectedPlayer" class="selected-player"></div>
-            
-            <button id="impostorRevealBtn" class="impostor-reveal-btn" style="display: none;" onclick="revealImpostor()">🎭 Mostrar Impostor</button>
+            <button id="impostorRevealBtn" class="impostor-reveal-btn" onclick="revealImpostor()">🎭 Mostrar Impostor</button>
         </div>
         
-        <!-- Pantalla de Resultados -->
         <div class="screen" id="resultScreen">
-            <button class="back-btn" onclick="backToSetup()">← Volver a Configuración</button>
-            
             <div class="results">
                 <h2>🏆 Resultados Finales</h2>
                 <div class="impostor-revealed" id="impostorReveal"></div>
                 <div class="known-reveal" id="knownReveal"></div>
             </div>
-            
             <button class="restart-btn" onclick="restartGame()">🔄 Reiniciar Juego</button>
         </div>
     </div>
-    
-    <!-- Modal de Ayuda -->
+
     <div class="help-modal" id="helpModal">
         <div class="help-content">
             <button class="close-help" onclick="closeHelp()">×</button>
-            <h2>🎮 Cómo Jugar al Impostor</h2>
-            <p><strong>Objetivo:</strong> Descubrir quién es el impostor entre los jugadores.</p>
-            <p><strong>Preparación:</strong> Elige el número de jugadores y una palabra secreta.</p>
-            <p><strong>Reparto de Roles:</strong> Un jugador será el impostor (no conocerá la palabra) y el resto sí.</p>
-            <p><strong>Juego:</strong> Cada jugador pulsa su tarjeta para ver su rol. Si ves la palabra, eres un jugador normal. Si ves "Impostor", debes engañar a los demás.</p>
-            <p><strong>Revelación Final:</strong> Después de las pistas, cada jugador vota señalando a un sospechoso. Pulsa 'Mostrar Impostor' para revelar quién era.</p>
-            <p><strong>Victoria:</strong> Si el impostor es descubierto, gana el equipo. Si logra engañar, gana él.</p>
+            <h2>🎮 Cómo Jugar</h2>
+            <p>Descubre quién es el impostor. Todos conocen la palabra secreta menos uno.</p>
         </div>
     </div>
-    
+
     <div class="notification" id="notification"></div>
 
     <script>
-        // Service Worker registration
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('Service Worker registrado:', registration);
-                    })
-                    .catch(error => {
-                        console.log('Error al registrar Service Worker:', error);
-                    });
-            });
-        }
+        const wordDatabase = ['Pizza', 'Dragón', 'Castillo', 'Pirata', 'Astronauta', 'Dinosaurio', 'Volcán', 'Helado', 'Bicicleta', 'Submarino', 'Robot', 'Espada', 'Delfín', 'Mago', 'Sirena', 'Bosque', 'Hamburguesa', 'Reloj', 'Diamante', 'Pingüino', 'Elefante', 'Cine', 'Superhéroe', 'Fantasma', 'Avión', 'Fútbol', 'Tiburón', 'Cohete', 'Lápiz'];
 
-        // Base de palabras para niños de 9 años (más de 100 palabras)
-        const wordDatabase = [
-    'Pizza', 'Dragón', 'Castillo', 'Pirata', 'Colegio', 'Astronauta', 'Dinosaurio', 'Volcán', 'Arcoíris',
-    'Helado', 'Bicicleta', 'Submarino', 'Telescopio', 'Mochila', 'Esqueleto', 'Canguro',
-    'Robot', 'Espada', 'Cámara', 'Delfín', 'Mago', 'Sirena', 'Bosque', 'Paraguas', 'Zapato',
-    'Balón', 'Guitarra', 'Hamburguesa', 'Reloj', 'Globo', 'Espejo', 'Diamante', 'Mapa',
-    'Brújula', 'Pingüino', 'Elefante', 'Tren', 'Cine', 'Biblioteca', 'Superhéroe', 'Fantasma',
-    'Caramelo', 'Avión', 'Fútbol', 'Palomitas', 'Carretera', 'Microscopio', 'Tiburón', 'Desierto',
-    'Medusa', 'Antorcha', 'Cohete', 'Microondas', 'Cebra', 'Jungla', 'Televisión',
-    'Silla', 'Cuchara', 'Pintura', 'Ordenador', 'Linterna', 'Cangrejo', 'Águila', 'Iglú',
-    'Momia', 'Trofeo', 'Teléfono Móvil', 'Burbuja', 'Circo', 'Puente', 'Prismáticos', 'Relámpago',
-    'Semáforo', 'Farola', 'Quiosco', 'Estatua', 'Fuente', 'Tractor', 'Cabaña',
-    'Molino', 'Pozo', 'Seta', 'Ardilla', 'Lobo', 'Chocolate', 'Cactus', 'Camello', 'Polideportivo',
-    'Palmera', 'Faro', 'Ancla', 'Gaviota', 'Concha', 'Cuerda', 'Gallina', 'Caracol',
-    'Gorila', 'Mariposa', 'Girasol', 'Cesta', 'Panadero', 'Dentista', 'Bombero', 'Abeja',
-    'Esquí', 'Raqueta', 'Patinete', 'olas', 'Chimenea', 'Cofre', 'Flauta', 'Tambor', 
-    'Piano', 'Aspiradora', 'Frigorífico', 'Lavadora', 'Plancha', 'Toalla', 'Jabón', 'Esponja', 
-    'Almohada', 'Manta', 'Ventana', 'Puerta', 'Escalera', 'Cuna', 'Biberón', 'Chupete', 
-    'Juguete', 'Peluche', 'Puzzle', 'Ajedrez', 'Dados', 'Flotador', 'Cometa', 'Columpio', 
-    'Tobogán', 'Césped', 'Huerto', 'Invernadero', 'Regadera', 'Bufanda', 'Pala', 'Rastrillo', 
-    'Manguera', 'Pato', 'Pavo', 'Búho', 'Gallo', 'Ratón', 'Queso', 'Botas', 'Gorra', 
-    'Cubo', 'Guante', 'Piscina', 'Parque', 'Zoológico', 'Granja', 'Cebra', 'Lápiz'
-];
+        const tapSound = new Audio('https://raw.githubusercontent.com/ManuelVS8/Efectos_audio/main/Tap.mp3');
+        const rouletteSound = new Audio('https://raw.githubusercontent.com/ManuelVS8/Efectos_audio/main/Ruleta.mp3');
+        const winSound = new Audio('https://raw.githubusercontent.com/ManuelVS8/Efectos_audio/main/Completado.mp3');
 
         let gameState = {
             players: [],
             currentPlayerIndex: 0,
             word: '',
             impostorIndex: 0,
-            allRevealed: false,
-            cardFlipped: false,
-            wordSource: 'generated',
-            customWord: '',
             wordVisible: false,
-            startingPlayer: null,
-            rouletteInterval: null
+            cardFlipped: false
         };
 
-        // Sonidos
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        function playTap() { tapSound.currentTime = 0; tapSound.play().catch(() => {}); }
 
-        function playSound(url) {
-            fetch(url)
-                .then(response => response.arrayBuffer())
-                .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-                .then(audioBuffer => {
-                    const source = audioContext.createBufferSource();
-                    source.buffer = audioBuffer;
-                    source.connect(audioContext.destination);
-                    source.start();
-                })
-                .catch(error => console.log('Error loading sound:', error));
-        }
+        function showHelp() { playTap(); document.getElementById('helpModal').classList.add('active'); }
+        function closeHelp() { playTap(); document.getElementById('helpModal').classList.remove('active'); }
 
-        function playTapSound() {
-            playSound('https://raw.githubusercontent.com/ManuelVS8/Efectos_audio/main/Tap.mp3');
-        }
-
-        function playFinalSound() {
-            playSound('https://raw.githubusercontent.com/ManuelVS8/Efectos_audio/main/Completado.mp3');
-        }
-
-        // Vibración en dispositivos móviles
-        function vibrate() {
-            if ('vibrate' in navigator) {
-                navigator.vibrate(50);
-            }
-        }
-
-        function showHelp() {
-            playTapSound();
-            document.getElementById('helpModal').classList.add('active');
-        }
-
-        function closeHelp() {
-            playTapSound();
-            document.getElementById('helpModal').classList.remove('active');
+        function generateRandomWord() {
+            playTap();
+            gameState.word = wordDatabase[Math.floor(Math.random() * wordDatabase.length)];
+            gameState.wordVisible = false;
+            
+            const ast = document.getElementById('asterisks');
+            ast.classList.remove('blink');
+            void ast.offsetWidth;
+            ast.classList.add('blink');
+            
+            updateWordUI();
         }
 
         function showCustomWordInput() {
-            playTapSound();
-            vibrate();
-            
+            playTap();
+            document.getElementById('initialWordButtons').style.display = 'none';
+            document.getElementById('wordArea').style.display = 'none';
             document.getElementById('customWordGroup').style.display = 'block';
-            document.getElementById('generateWordBtn').style.display = 'none';
-            document.getElementById('customWordBtn').style.display = 'none';
-            document.getElementById('generatedWord').style.display = 'none';
-            
-            gameState.wordSource = 'custom';
-        }
-
-        function generateRandomWord() {
-            playTapSound();
-            vibrate();
-            
-            const randomIndex = Math.floor(Math.random() * wordDatabase.length);
-            const word = wordDatabase[randomIndex];
-            gameState.word = word;
-            
-            document.getElementById('generatedWord').style.display = 'block';
-            document.getElementById('customWordGroup').style.display = 'none';
-            document.getElementById('generateWordBtn').style.display = 'none';
-            document.getElementById('customWordBtn').style.display = 'none';
-            
-            gameState.wordSource = 'generated';
-            gameState.wordVisible = false;
-            updateWordDisplay();
-            showNotification('¡Palabra generada correctamente!', 'success');
-        }
-
-        function updateWordDisplay() {
-            const wordText = document.getElementById('generatedWord').querySelector('.word-text');
-            const showWordBtn = document.getElementById('showWordBtn');
-            
-            if (gameState.wordVisible) {
-                wordText.textContent = gameState.word;
-                showWordBtn.textContent = '🙈'; // Ojo cerrado cuando la palabra está visible
-            } else {
-                wordText.textContent = '********';
-                showWordBtn.textContent = '👁️'; // Ojo abierto cuando la palabra está oculta
-            }
+            gameState.word = '';
         }
 
         function toggleWordVisibility() {
-            playTapSound();
+            playTap();
             gameState.wordVisible = !gameState.wordVisible;
-            updateWordDisplay();
+            updateWordUI();
+        }
+
+        function updateWordUI() {
+            document.getElementById('asterisks').textContent = gameState.wordVisible ? gameState.word : '********';
+            document.getElementById('eyeIcon').textContent = gameState.wordVisible ? '🙈' : '👁️';
         }
 
         function startGame() {
-            const playerCount = parseInt(document.getElementById('playerCount').value);
+            playTap();
+            const custom = document.getElementById('customWord').value.trim();
+            if (custom) gameState.word = custom;
             
-            if (gameState.wordSource === 'custom') {
-                const customWord = document.getElementById('customWord').value.trim();
-                if (!customWord) {
-                    showNotification('Por favor, introduce una palabra', 'error');
-                    return;
-                }
-                gameState.word = customWord;
-            } else if (!gameState.word) {
-                showNotification('Por favor, genera o introduce una palabra primero', 'error');
+            if (!gameState.word) {
+                showNotification("¡Genera o escribe una palabra!", "error");
                 return;
             }
-            
-            // Inicializar juego
-            gameState.players = [];
-            gameState.impostorIndex = Math.floor(Math.random() * playerCount);
+
+            const count = parseInt(document.getElementById('playerCount').value);
+            gameState.players = Array.from({length: count}, (_, i) => ({ name: `Jugador ${i+1}` }));
+            gameState.impostorIndex = Math.floor(Math.random() * count);
             gameState.currentPlayerIndex = 0;
-            gameState.allRevealed = false;
-            gameState.cardFlipped = false;
-            gameState.startingPlayer = null;
             
-            // Crear jugadores
-            for (let i = 0; i < playerCount; i++) {
-                gameState.players.push({
-                    id: i,
-                    name: `Jugador ${i + 1}`,
-                    knowsWord: i !== gameState.impostorIndex,
-                    revealed: false
-                });
-            }
-            
-            // Mostrar pantalla de juego
             document.getElementById('setupScreen').classList.remove('active');
             document.getElementById('gameScreen').classList.add('active');
             
-            // Mostrar primera tarjeta
+            // Reset de UI
+            document.getElementById('startPlayerBtn').style.display = 'none';
+            document.getElementById('startPlayerBtn').disabled = false;
+            document.getElementById('startPlayerBtn').style.opacity = "1";
+            document.getElementById('selectedPlayer').textContent = '';
+            document.getElementById('impostorRevealBtn').style.display = 'none';
+            
             showPlayerCard();
         }
 
         function showPlayerCard() {
             const player = gameState.players[gameState.currentPlayerIndex];
-            const playerName = document.getElementById('playerName');
-            const playerRole = document.getElementById('playerRole');
-            const card = document.getElementById('playerCard');
-            const showBtn = document.getElementById('showBtn');
-            const hideBtn = document.getElementById('hideBtn');
-            const impostorRevealBtn = document.getElementById('impostorRevealBtn');
-            const playerIndicator = document.getElementById('playerIndicator');
-            const startPlayerBtn = document.getElementById('startPlayerBtn');
-            const selectedPlayer = document.getElementById('selectedPlayer');
-            const playerRoulette = document.getElementById('playerRoulette');
-            
-            // Resetear tarjeta
-            card.classList.remove('flipped');
+            document.getElementById('playerName').textContent = player.name;
+            document.getElementById('playerIndicator').textContent = `Turno de ${player.name}`;
+            document.getElementById('playerCard').classList.remove('flipped');
             gameState.cardFlipped = false;
-            
-            playerName.textContent = player.name;
-            playerRole.textContent = 'Contenido';
-            playerRole.className = 'player-role';
-            
-            // Configurar botones
-            showBtn.style.display = 'block';
-            hideBtn.style.display = 'none';
-            impostorRevealBtn.style.display = 'none';
-            startPlayerBtn.classList.remove('active');
-            selectedPlayer.textContent = '';
-            playerRoulette.style.display = 'none';
-            
-            playerIndicator.textContent = `Turno de ${player.name}`;
-            
-            playTapSound();
         }
 
         function flipCard() {
-            const player = gameState.players[gameState.currentPlayerIndex];
-            const playerRole = document.getElementById('playerRole');
-            const card = document.getElementById('playerCard');
-            const showBtn = document.getElementById('showBtn');
-            const hideBtn = document.getElementById('hideBtn');
+            if (gameState.cardFlipped) return;
+            playTap();
+            const isImpostor = gameState.currentPlayerIndex === gameState.impostorIndex;
+            const roleEl = document.getElementById('playerRole');
+            roleEl.textContent = isImpostor ? 'Impostor' : gameState.word;
+            roleEl.className = 'player-role ' + (isImpostor ? 'impostor' : 'known');
             
-            // Voltear tarjeta
-            card.classList.add('flipped');
+            document.getElementById('playerCard').classList.add('flipped');
             gameState.cardFlipped = true;
-            
-            // Mostrar contenido
-            if (player.knowsWord) {
-                playerRole.textContent = gameState.word;
-                playerRole.className = 'player-role known';
-            } else {
-                playerRole.textContent = 'Impostor';
-                playerRole.className = 'player-role impostor';
-            }
-            
-            // Ocultar botón mostrar, mostrar botón de acción
-            showBtn.style.display = 'none';
-            hideBtn.style.display = 'block';
-            
-            player.revealed = true;
-            playTapSound();
-            vibrate();
         }
 
         function hideCard() {
-            const card = document.getElementById('playerCard');
-            const showBtn = document.getElementById('showBtn');
-            const hideBtn = document.getElementById('hideBtn');
-            const nextIndex = gameState.currentPlayerIndex + 1;
-            
-            // Ocultar tarjeta
-            card.classList.remove('flipped');
-            gameState.cardFlipped = false;
-            
-            // Ocultar botón de acción, mostrar botón de mostrar
-            hideBtn.style.display = 'none';
-            showBtn.style.display = 'block';
-            
-            if (nextIndex >= gameState.players.length) {
-                // Último jugador, solo ocultar
-                gameState.allRevealed = true;
-                document.getElementById('impostorRevealBtn').style.display = 'block';
-                document.getElementById('startPlayerBtn').classList.add('active');
-                showNotification('Todos los jugadores han visto su tarjeta. Ahora puedes seleccionar quién empieza.', 'info');
-            } else {
-                gameState.currentPlayerIndex = nextIndex;
+            if (!gameState.cardFlipped) return;
+            playTap();
+            if (gameState.currentPlayerIndex < gameState.players.length - 1) {
+                gameState.currentPlayerIndex++;
                 showPlayerCard();
+            } else {
+                showNotification("¡Se han mostrado todas las tarjetas!", "success");
+                document.getElementById('playerCard').classList.remove('flipped');
+                document.getElementById('startPlayerBtn').style.display = 'block';
+                document.getElementById('impostorRevealBtn').style.display = 'block';
             }
+        }
+
+        function selectStartingPlayer() {
+            const btn = document.getElementById('startPlayerBtn');
+            const display = document.getElementById('selectedPlayer');
+            btn.disabled = true;
+            btn.style.opacity = "0.5";
             
-            playTapSound();
-            vibrate();
+            rouletteSound.currentTime = 0;
+            rouletteSound.play();
+
+            const interval = setInterval(() => {
+                const rand = Math.floor(Math.random() * gameState.players.length);
+                display.textContent = `🎲 Sorteando: Jugador ${rand + 1}`;
+            }, 80);
+
+            rouletteSound.onended = () => {
+                clearInterval(interval);
+                const winner = Math.floor(Math.random() * gameState.players.length);
+                display.innerHTML = `🏁 Empieza: <span style="color:#1a3a5f">Jugador ${winner + 1}</span>`;
+                btn.style.display = 'none';
+            };
         }
 
         function revealImpostor() {
-            playFinalSound();
-            spawnConfetti();
-            
+            playTap();
+            winSound.play();
             document.getElementById('gameScreen').classList.remove('active');
             document.getElementById('resultScreen').classList.add('active');
-            
-            const impostorReveal = document.getElementById('impostorReveal');
-            const knownReveal = document.getElementById('knownReveal');
-            
-            impostorReveal.textContent = `El impostor era: ${gameState.players[gameState.impostorIndex].name}`;
-            knownReveal.textContent = `La palabra era: ${gameState.word}`;
-            
-            showNotification('¡El impostor ha sido revelado!', 'success');
-        }
-
-        // MODIFICACIÓN: Animación de ruleta usando setInterval según la especificación del usuario
-        function selectStartingPlayer() {
-            const display = document.getElementById('selectedPlayer');
-            const btn = document.getElementById('startPlayerBtn');
-            
-            // 1. Evitamos que se pulse varias veces mientras sortea
-            if (btn.disabled) return;
-            btn.disabled = true;
-            btn.style.opacity = "0.6";
-
-            let i = 0; // Contador de vueltas
-            
-            // 2. Iniciamos el intervalo (se ejecuta cada 80 milisegundos)
-            gameState.rouletteInterval = setInterval(() => {
-                // Elegimos un jugador al azar de la lista
-                const rand = Math.floor(Math.random() * gameState.players.length);
-                
-                // Actualizamos el texto en pantalla con el nombre aleatorio actual
-                display.textContent = `🎲 Sorteando: ${gameState.players[rand].name}`;
-                
-                i++; // Sumamos una vuelta
-
-                // 3. Cuando llega a 15 iteraciones, se detiene
-                if(i > 15) {
-                    clearInterval(gameState.rouletteInterval); // Detiene el bucle de la ruleta
-                    
-                    // 4. Resultado final definitivo
-                    const final = Math.floor(Math.random() * gameState.players.length);
-                    display.innerHTML = `🏁 Empieza: <span style="color:#1a3a5f">${gameState.players[final].name}</span>`;
-                    
-                    // Ocultamos el botón para que ya no se pueda cambiar el resultado
-                    btn.style.display = 'none';
-                }
-            }, 80); // 80ms es la velocidad de la animación
-        }
-
-        function spawnConfetti(){
-          const container = document.body; // Se añade al cuerpo del documento
-          
-          for(let i = 0; i < 120; i++){
-            setTimeout(() => {
-              const c = document.createElement('div');
-              c.className = 'confetti';
-              
-              // 1. Posición inicial horizontal aleatoria
-              const x = Math.random() * window.innerWidth;
-              
-              // 2. Definición de la trayectoria (Variables CSS)
-              const ty = window.innerHeight + 20; // Cae hasta el fondo + margen
-              const tx = (Math.random() - 0.5) * 200; // Se mueve a izq o der hasta 100px
-              const tr = (Math.random() - 0.5) * 1000; // Rotación de muchos grados
-              
-              // 3. Colores vibrantes (puedes cambiarlos según tu juego)
-              const colors = ['#ff595e','#1982c4','#6a4c93','#ffca3a','#8ac926','#ff924c','#00c2ff'];
-              const color = colors[Math.floor(Math.random() * colors.length)];
-              
-              // 4. Tamaño aleatorio
-              const size = 6 + Math.random() * 8;
-              
-              // Aplicamos los estilos dinámicos
-              c.style.left = x + 'px';
-              c.style.top = '-20px'; // Empieza justo arriba de la pantalla
-              c.style.width = size + 'px';
-              c.style.height = (size * 0.4) + 'px'; // Son rectángulos alargados
-              c.style.backgroundColor = color;
-              
-              // Pasamos los valores a las variables de la animación CSS
-              c.style.setProperty('--ty', ty + 'px');
-              c.style.setProperty('--tx', tx + 'px');
-              c.style.setProperty('--tr', tr + 'deg');
-              
-              container.appendChild(c);
-              
-              // 5. Autodestrucción para optimizar memoria
-              setTimeout(() => c.remove(), 4000);
-              
-            }, i * 10); // Intervalo de salida entre papelitos
-          }
+            document.getElementById('impostorReveal').textContent = `El impostor era: Jugador ${gameState.impostorIndex + 1}`;
+            document.getElementById('knownReveal').textContent = `La palabra era: ${gameState.word}`;
+            spawnConfetti();
         }
 
         function backToSetup() {
+            playTap();
             document.getElementById('gameScreen').classList.remove('active');
             document.getElementById('resultScreen').classList.remove('active');
             document.getElementById('setupScreen').classList.add('active');
             
-            // Resetear opciones de palabra
+            document.getElementById('initialWordButtons').style.display = 'flex';
+            document.getElementById('wordArea').style.display = 'flex';
             document.getElementById('customWordGroup').style.display = 'none';
-            document.getElementById('generateWordBtn').style.display = 'block';
-            document.getElementById('customWordBtn').style.display = 'block';
-            document.getElementById('generatedWord').style.display = 'block';
-            document.getElementById('generatedWord').querySelector('.word-text').textContent = '********';
             document.getElementById('customWord').value = '';
             gameState.word = '';
-            gameState.wordSource = 'generated';
-            gameState.wordVisible = false;
-            updateWordDisplay();
+            updateWordUI();
         }
 
         function restartGame() {
+            playTap();
             backToSetup();
         }
 
-        function showNotification(message, type = 'info') {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.style.background = type === 'error' ? '#e74c3c' : 
-                                         type === 'success' ? '#2ecc71' : '#1a3a5f';
-            notification.style.display = 'block';
-            
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 3000);
+        function showNotification(msg, type) {
+            const n = document.getElementById('notification');
+            n.textContent = msg;
+            n.style.background = type === 'error' ? '#e74c3c' : '#2ecc71';
+            n.style.display = 'block';
+            setTimeout(() => n.style.display = 'none', 3000);
         }
 
-        // Event listeners para la tarjeta
-        document.addEventListener('DOMContentLoaded', () => {
-            const card = document.getElementById('playerCard');
-            const showBtn = document.getElementById('showBtn');
-            const hideBtn = document.getElementById('hideBtn');
-            
-            // Pulsar la tarjeta para mostrar/ocultar
-            card.addEventListener('click', function(e) {
-                // Evitar que el clic en botones afecte a la tarjeta
-                if (e.target === showBtn || e.target === hideBtn) return;
-                
-                if (!gameState.cardFlipped) {
-                    flipCard();
-                } else {
-                    hideCard();
-                }
-            });
-            
-            // Botones individuales también funcionan
-            showBtn.addEventListener('click', flipCard);
-            hideBtn.addEventListener('click', hideCard);
+        function spawnConfetti(){
+          for(let i = 0; i < 100; i++){
+            setTimeout(() => {
+              const c = document.createElement('div');
+              c.className = 'confetti';
+              c.style.left = (Math.random() * 100) + 'vw';
+              c.style.top = '-20px';
+              c.style.backgroundColor = ['#ff595e','#1982c4','#ffca3a','#8ac926'][Math.floor(Math.random()*4)];
+              c.style.width = '10px'; c.style.height = '5px';
+              c.style.setProperty('--ty', (window.innerHeight + 20) + 'px');
+              c.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
+              c.style.setProperty('--tr', (Math.random() * 1000) + 'deg');
+              document.body.appendChild(c);
+              setTimeout(() => c.remove(), 4000);
+            }, i * 10);
+          }
+        }
+
+        document.getElementById('playerCard').addEventListener('click', (e) => {
+            if(e.target.tagName === 'BUTTON') return;
+            if (!gameState.cardFlipped) flipCard();
+            else hideCard();
         });
     </script>
 </body>
