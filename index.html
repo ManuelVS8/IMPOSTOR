@@ -226,6 +226,13 @@
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
             100% { transform: translateY(var(--ty)) translateX(var(--tx)) rotate(var(--tr)); opacity: 0; }
         }
+
+        /* Estilo específico para el botón de volver con sombra azul */
+        .back-btn {
+            background: #1a3a5f; 
+            color: white;
+            box-shadow: 0 4px 15px rgba(26, 58, 95, 0.4) !important; 
+        }
     </style>
 </head>
 <body>
@@ -247,6 +254,8 @@
                     <option value="6">6 jugadores</option>
                     <option value="7">7 jugadores</option>
                     <option value="8">8 jugadores</option>
+                    <option value="9">9 jugadores</option>
+                    <option value="10">10 jugadores</option>
                 </select>
             </div>
             
@@ -270,18 +279,20 @@
         </div>
         
         <div class="screen" id="gameScreen">
-            <button class="back-btn" onclick="backToSetup()" style="background: #1a3a5f; color: white;">← Volver a Configuración</button>
+            <button class="back-btn" onclick="backToSetup()">← Volver a Configuración</button>
             <div id="playerIndicator" style="text-align: center; margin: 20px 0; font-weight: bold;">Turno del Jugador 1</div>
             
             <div class="card-container">
                 <div class="card" id="playerCard">
                     <div class="card-face card-front">
                         <div class="player-name" id="playerName">Jugador 1</div>
-                        <button style="width: auto; padding: 10px 20px;">Mostrar</button>
+                        <!-- Añadido onclick al botón Mostrar -->
+                        <button style="width: auto; padding: 10px 20px;" onclick="handleCardInteraction(event)">Mostrar</button>
                     </div>
                     <div class="card-face card-back">
                         <div class="player-role" id="playerRole"></div>
-                        <button style="width: auto; padding: 10px 20px;">Ocultar y pasar</button>
+                        <!-- Añadido onclick al botón Ocultar -->
+                        <button style="width: auto; padding: 10px 20px;" onclick="handleCardInteraction(event)">Ocultar y pasar</button>
                     </div>
                 </div>
             </div>
@@ -305,14 +316,59 @@
         <div class="help-content">
             <button class="close-help" onclick="closeHelp()">×</button>
             <h2>🎮 Cómo Jugar</h2>
-            <p>Descubre quién es el impostor. Todos conocen la palabra secreta menos uno.</p>
+            <br>
+            <p><strong>Objetivo:</strong> Descubrir quién es el impostor entre los jugadores.</p>
+            <br>
+            <p><strong>Preparación:</strong> Elige el número de jugadores y una palabra secreta.</p>
+            <br>
+            <p><strong>Reparto de Roles:</strong> Cada jugador pulsa su tarjeta para ver su rol. Si ves la palabra, eres un jugador normal. Si ves "Impostor", debes engañar a los demás.</p>
+            <br>
+            <p><strong>Juego:</strong> Los jugadores darán pistas sutiles sobre la palabra secreta para no ayudar al Impostor. Por su parte, el Impostor usará las pistas para camuflarse entre los demás y tratar de no ser descubierto.</p>
+            <br>
+            <p><strong>Revelación Final:</strong> Después de las pistas, cada jugador vota señalando a un sospechoso. Pulsa 'Mostrar Impostor' para revelar quién era.</p>
+            <br>
+            <p><strong>Victoria:</strong> Si el impostor es descubierto, gana el equipo. Si logra engañar, gana el impostor.</p>
         </div>
     </div>
 
     <div class="notification" id="notification"></div>
 
     <script>
-        const wordDatabase = ['Pizza', 'Dragón', 'Castillo', 'Pirata', 'Astronauta', 'Dinosaurio', 'Volcán', 'Helado', 'Bicicleta', 'Submarino', 'Robot', 'Espada', 'Delfín', 'Mago', 'Sirena', 'Bosque', 'Hamburguesa', 'Reloj', 'Diamante', 'Pingüino', 'Elefante', 'Cine', 'Superhéroe', 'Fantasma', 'Avión', 'Fútbol', 'Tiburón', 'Cohete', 'Lápiz'];
+        const wordDatabase = [
+    'Pizza', 'Dragón', 'Castillo', 'Pirata', 'Astronauta', 'Dinosaurio', 'Volcán', 'Helado', 'Bicicleta', 'Submarino', 
+    'Robot', 'Espada', 'Delfín', 'Mago', 'Sirena', 'Bosque', 'Hamburguesa', 'Reloj', 'Diamante', 'Pingüino', 
+    'Elefante', 'Cine', 'Superhéroe', 'Fantasma', 'Avión', 'Fútbol', 'Tiburón', 'Cohete', 'Lápiz', 'Guitarra', 
+    'Biblioteca', 'Mochila', 'Esqueleto', 'Canguro', 'Arcoíris', 'Telescopio', 'Brújula', 'Cámara', 'Palomitas', 
+    'Microscopio', 'Cebra', 'Jungla', 'Televisión', 'Silla', 'Cuchara', 'Pintura', 'Ordenador', 'Linterna', 'Cangrejo', 
+    'Águila', 'Iglú', 'Momia', 'Trofeo', 'Teléfono', 'Burbuja', 'Circo', 'Puente', 'Prismáticos', 'Relámpago', 
+    'Semáforo', 'Farola', 'Estatua', 'Fuente', 'Tractor', 'Cabaña', 'Molino', 'Pozo', 'Seta', 'Ardilla', 
+    'Lobo', 'Chocolate', 'Cactus', 'Camello', 'Palmera', 'Faro', 'Ancla', 'Gaviota', 'Concha', 'Cuerda', 
+    'Gallina', 'Caracol', 'Gorila', 'Mariposa', 'Girasol', 'Cesta', 'Panadero', 'Dentista', 'Bombero', 'Abeja', 
+    'Esquí', 'Raqueta', 'Patinete', 'Chimenea', 'Cofre', 'Flauta', 'Tambor', 'Piano', 'Aspiradora', 'Lavadora', 
+    'Toalla', 'Jabón', 'Esponja', 'Almohada', 'Manta', 'Ventana', 'Puerta', 'Escalera', 'Cuna', 'Chupete', 
+    'Juguete', 'Peluche', 'Puzzle', 'Ajedrez', 'Dados', 'Flotador', 'Cometa', 'Columpio', 'Tobogán', 'Césped', 
+    'Huerto', 'Regadera', 'Bufanda', 'Pala', 'Rastrillo', 'Manguera', 'Pato', 'Búho', 'Gallo', 'Ratón', 
+    'Queso', 'Botas', 'Gorra', 'Cubo', 'Guante', 'Piscina', 'Parque', 'Zoológico', 'Granja', 'León', 
+    'Tigre', 'Oveja', 'Vaca', 'Caballo', 'Cerdo', 'Conejo', 'Gato', 'Perro', 'Pájaro', 'Pez', 
+    'Tortuga', 'Serpiente', 'Rana', 'Hormiga', 'Dromedario', 'Estrella', 'Nube', 'Montaña', 'Océano', 'Isla', 
+    'Globo', 'Terremoto', 'Zapatilla', 'Telaraña', 'Espejo', 'Martillo', 'Tornillo', 'Anillo', 'Collar', 'Paraguas', 
+    'Billete', 'Escudo', 'Antorcha', 'Mapa', 'Maleta', 'Grifo', 'Sofá', 'Nevera', 'Tenedor', 'Plato', 
+    'Sartén', 'Radio', 'Calculadora', 'Gafas', 'Diccionario', 'Cuaderno', 'Pincel', 'Acordeón', 'Arpa', 'Violín', 
+    'Camión', 'Autobús', 'Moto', 'Helicóptero', 'Barco', 'Tren', 'Taxi', 'Ambulancia', 'Policía', 'Médico', 
+    'Chef', 'Pintor', 'Granjero', 'Cartero', 'Mecánico', 'Piloto', 'Científico', 'Jardinero', 'Carpintero', 'Sastre', 
+    'Peluquero', 'Estadio', 'Museo', 'Hospital', 'Teatro', 'Aeropuerto', 'Puerto', 'Mercado', 'Iglesia', 'Palacio', 
+    'Cárcel', 'Desierto', 'Cascada', 'Pantano', 'Cueva', 'Pradera', 'Glaciar', 'Arrecife', 'Río', 'Lago', 
+    'Acantilado', 'Bambú', 'Trigo', 'Algodón', 'Roble', 'Pino', 'Manzana', 'Plátano', 'Uva', 'Sandía', 
+    'Zanahoria', 'Tomate', 'Patata', 'Cebolla', 'Maíz', 'Pan', 'Leche', 'Huevo', 'Miel', 'Azúcar', 
+    'Sal', 'Mundo', 'Calcetín', 'Navidad', 'Gobierno', 'Dinero', 'Rayo', 'Paseo', 'Nieve', 'Messi', 
+    'Lámpara', 'Enchufe', 'Excavadora', 'Vinagre', 'Aceite', 'Mantequilla', 'Yogur', 'Galleta', 'Pastel', 'Caramelo', 
+    'Chicle', 'Sandalia', 'Tacón', 'Pantalón', 'Camiseta', 'Chaqueta', 'Abrigo', 'Vestido', 'Falda', 'Corbata', 
+    'Cinturón', 'Sombrero', 'Casco', 'Máscara', 'Disfraz', 'Capa', 'Corona', 'Cetro', 'Trono', 'Banquete', 
+    'Fiesta', 'Regalo', 'Vela', 'Fuego', 'Hielo', 'Lluvia', 'Viento', 'Tormenta', 'Arena', 'Piedra', 
+    'Barro', 'Portero', 'Oro', 'Plata', 'Cobre', 'Hierro', 'Plástico', 'Cristal', 'Papel', 'Cartón', 
+    'Madera', 'Cuero', 'Lana', 'Seda', 'Lienzo', 'Pegamento', 'Tijeras', 'Goma', 'Grapadora', 'Carpeta', 
+    'Sobre', 'Sello', 'Pluma', 'Tinta', 'Pizarra', 'Tiza', 'Borrador', 'Pupitre'
+];
 
         const tapSound = new Audio('https://raw.githubusercontent.com/ManuelVS8/Efectos_audio/main/Tap.mp3');
         const rouletteSound = new Audio('https://raw.githubusercontent.com/ManuelVS8/Efectos_audio/main/Ruleta.mp3');
@@ -426,6 +482,18 @@
             }
         }
 
+        // Función unificada para manejar la interacción (click en tarjeta o botones)
+        function handleCardInteraction(e) {
+            // Prevenir comportamiento por defecto si es necesario
+            if(e) e.stopPropagation();
+            
+            if (!gameState.cardFlipped) {
+                flipCard();
+            } else {
+                hideCard();
+            }
+        }
+
         function selectStartingPlayer() {
             const btn = document.getElementById('startPlayerBtn');
             const display = document.getElementById('selectedPlayer');
@@ -503,10 +571,9 @@
           }
         }
 
+        // Listener para clicks en la tarjeta (área que no es botón)
         document.getElementById('playerCard').addEventListener('click', (e) => {
-            if(e.target.tagName === 'BUTTON') return;
-            if (!gameState.cardFlipped) flipCard();
-            else hideCard();
+            handleCardInteraction(e);
         });
     </script>
 </body>
