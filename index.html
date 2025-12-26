@@ -575,6 +575,14 @@
         document.getElementById('playerCard').addEventListener('click', (e) => {
             handleCardInteraction(e);
         });
+
+        // Listener para el selector de jugadores (Sonido tap)
+        document.getElementById('playerCount').addEventListener('click', () => {
+            playTap();
+        });
+        document.getElementById('playerCount').addEventListener('change', () => {
+            playTap();
+        });
     </script>
 </body>
 </html>
